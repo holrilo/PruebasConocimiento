@@ -81,6 +81,15 @@ class TareasControllers extends Controller
     public function update(Request $request, $id)
     {
         //
+        $tareas = Tareas::findOrFail($request->id);
+        $tareas->nombre_tariea = $request->nombre_tariea;
+        $tareas->descripcion_tarea = $request->descripcion_tarea;
+        $tareas->fecha_creacion = $request->fecha_creacion;
+        $tareas->estado_tarea = $request->estado_tarea;
+        $tareas->fecha_vencimiento = $request->fecha_vencimiento;
+        $tareas->usuario = $request->usuario;
+        $tareas->save();
+        return $tareas;
     }
 
     /**
@@ -89,8 +98,10 @@ class TareasControllers extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         //
+        $tareas = Tareas::destroy($request->id);
+        return $tareas;
     }
 }
