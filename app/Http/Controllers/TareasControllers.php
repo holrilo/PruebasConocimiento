@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tareas;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class TareasControllers extends Controller
 {
@@ -15,8 +17,10 @@ class TareasControllers extends Controller
     public function index()
     {
         //
-        $tareas = Tareas::all();
-        return $tareas;
+        //$tareas = Tareas::all();
+        //return $tareas;
+        $datos['tareas'] = Tareas::all();
+        return view('tarea.index',$datos);
     }
 
     /**
@@ -27,6 +31,7 @@ class TareasControllers extends Controller
     public function create()
     {
         //
+        return view('tarea.create');
     }
 
     /**
@@ -38,16 +43,18 @@ class TareasControllers extends Controller
     public function store(Request $request)
     {
         //
+        $user = new User();
         $tareas = new Tareas();
-        $tareas->nombre_tariea = $request->nombre_tariea;
-        $tareas->descripcion_tarea = $request->descripcion_tarea;
-        $tareas->fecha_creacion = $request->fecha_creacion;
-        $tareas->estado_tarea = $request->estado_tarea;
-        $tareas->fecha_vencimiento = $request->fecha_vencimiento;
-        $tareas->usuario = $request->usuario;
-
+        $tareas->nombre_tariea = $request->txtTarea;
+        $tareas->descripcion_tarea = $request->txtDesc;
+        $tareas->fecha_creacion = $request->txtFecha;
+        $tareas->estado_tarea = $request->txtEstado;
+        $tareas->fecha_vencimiento = $request->txtFechaV;
+        //$tareas->usuario = $request->usuario;
+        $tareas->usuario = Auth::user()->name;
         $tareas->save();
-        return "Se creo el registro". $tareas;
+        //return "Se creo el registro". $tareas;
+        return redirect('tarea');
     }
 
     /**
@@ -70,6 +77,8 @@ class TareasControllers extends Controller
     public function edit($id)
     {
         //
+        $tarea = Tareas::findOrFail($id);
+        return view('tarea.edit', compact('tarea'));
     }
 
     /**
@@ -79,18 +88,23 @@ class TareasControllers extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
         //
-        $tareas = Tareas::findOrFail($request->id);
-        $tareas->nombre_tariea = $request->nombre_tariea;
-        $tareas->descripcion_tarea = $request->descripcion_tarea;
-        $tareas->fecha_creacion = $request->fecha_creacion;
-        $tareas->estado_tarea = $request->estado_tarea;
-        $tareas->fecha_vencimiento = $request->fecha_vencimiento;
-        $tareas->usuario = $request->usuario;
-        $tareas->save();
-        return $tareas;
+         $tareas = Tareas::findOrFail($id);
+         $tareas->nombre_tariea = $request->txtTarea;
+         $tareas->descripcion_tarea = $request->txtDesc;
+         $tareas->fecha_creacion = $request->txtFecha;
+         $tareas->estado_tarea = $request->txtEstado;
+         $tareas->fecha_vencimiento = $request->txtFechaV;
+         //$tareas->usuario = $request->usuario;
+         $tareas->save();
+         return redirect('/tarea');
+ 
+        // $tareas->save();
+         //return "Se creo el registro". $tareas;
+        //return $tareas;
+        //return "entro".$tareas->nombre_tariea;
     }
 
     /**
@@ -99,10 +113,12 @@ class TareasControllers extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
         //
-        $tareas = Tareas::destroy($request->id);
-        return $tareas;
+        //$tareas = Tareas::destroy($request->id);
+        Tareas::destroy($id);
+        //return $tareas;
+        return redirect('/tarea');
     }
 }

@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/tareas', 'App\Http\Controllers\TareasControllers@index'); 
+Route::get('/tareas/consultar', 'App\Http\Controllers\TareasControllers@index'); 
 Route::post('/tareas/crear', 'App\Http\Controllers\TareasControllers@store');
 Route::put('/tareas/{id}', 'App\Http\Controllers\TareasControllers@update');
 Route::delete('/tareas/{id}', 'App\Http\Controllers\TareasControllers@destroy');
