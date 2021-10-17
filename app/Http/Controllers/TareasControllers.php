@@ -20,7 +20,7 @@ class TareasControllers extends Controller
         //$tareas = Tareas::all();
         //return $tareas;
         $datos['tareas'] = Tareas::all();
-        return view('tarea.index',$datos);
+        return view('tarea.index', $datos);
     }
 
     /**
@@ -42,7 +42,7 @@ class TareasControllers extends Controller
      */
     public function store(Request $request)
     {
-        //
+
         $user = new User();
         $tareas = new Tareas();
         $tareas->nombre_tariea = $request->txtTarea;
@@ -54,7 +54,7 @@ class TareasControllers extends Controller
         $tareas->usuario = Auth::user()->name;
         $tareas->save();
         //return "Se creo el registro". $tareas;
-        return redirect('tarea');
+        return redirect('tarea')->with('mensaje', 'Tarea Agregada con Exito');
     }
 
     /**
@@ -88,21 +88,28 @@ class TareasControllers extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         //
-         $tareas = Tareas::findOrFail($id);
-         $tareas->nombre_tariea = $request->txtTarea;
-         $tareas->descripcion_tarea = $request->txtDesc;
-         $tareas->fecha_creacion = $request->txtFecha;
-         $tareas->estado_tarea = $request->txtEstado;
-         $tareas->fecha_vencimiento = $request->txtFechaV;
-         //$tareas->usuario = $request->usuario;
-         $tareas->save();
-         return redirect('/tarea');
- 
+        $tareas = Tareas::findOrFail($id);
+        $tareas->nombre_tariea = $request->txtTarea;
+        $tareas->descripcion_tarea = $request->txtDesc;
+        $tareas->fecha_creacion = $request->txtFecha;
+        $tareas->estado_tarea = $request->txtEstado;
+        $tareas->fecha_vencimiento = $request->txtFechaV;
+        //$tareas->usuario = $request->usuario;
+        if (Auth::user()->name != $tareas->usuario ) {
+            # code...
+            $mensaje = "EL usuario no creo el caso no se puede modificar ";
+        }else {
+            $tareas->save();
+            $mensaje = "Tarea Modificada con Exito";
+        }
+        
+        return redirect('/tarea')->with('mensaje', $mensaje);;
+
         // $tareas->save();
-         //return "Se creo el registro". $tareas;
+        //return "Se creo el registro". $tareas;
         //return $tareas;
         //return "entro".$tareas->nombre_tariea;
     }

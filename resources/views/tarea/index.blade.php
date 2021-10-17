@@ -3,6 +3,16 @@
 @section('content')
 
     <div class="container">
+        @if (Session::has('mensaje'))
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <strong>
+                    {{ Session::get('mensaje') }}
+                </strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span arial-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
 
         <a href="{{ url('tarea/create') }}" class="btn btn-success">Crear Nueva Tarea</a>
         <br>
@@ -30,9 +40,10 @@
                         <td>{{ $tarea->estado_tarea }}</td>
                         <td>{{ $tarea->fecha_vencimiento }}</td>
                         <td>{{ $tarea->usuario }}</td>
-                        <td >
-                            <a href="{{ url('/tarea/' . $tarea->id . '/edit') }}" class="btn btn-warning d-inline">Editar</a>
-                            <form action="{{ url('/tarea/' . $tarea->id) }}" method="post" class="d-inline" >
+                        <td>
+                            <a href="{{ url('/tarea/' . $tarea->id . '/edit') }}"
+                                class="btn btn-warning d-inline">Editar</a>
+                            <form action="{{ url('/tarea/' . $tarea->id) }}" method="post" class="d-inline">
                                 @csrf
                                 {{ method_field('DELETE') }}
                                 <input class="btn btn-danger" type="submit" onclick="return confirm('Quieres Borrar?')"
