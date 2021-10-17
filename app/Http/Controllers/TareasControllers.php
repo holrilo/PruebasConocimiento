@@ -47,6 +47,7 @@ class TareasControllers extends Controller
         $tareas->usuario = $request->usuario;
 
         $tareas->save();
+        return "Se creo el registro". $tareas;
     }
 
     /**
@@ -78,7 +79,7 @@ class TareasControllers extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
         $tareas = Tareas::findOrFail($request->id);
