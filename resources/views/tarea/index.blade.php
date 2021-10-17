@@ -15,6 +15,7 @@
         @endif
 
         <a href="{{ url('tarea/create') }}" class="btn btn-success">Crear Nueva Tarea</a>
+
         <br>
         <br>
         <table class="table table-light">
@@ -54,6 +55,6 @@
                 @endforeach
             </tbody>
         </table>
-
+        {!! $tareas->links() !!}
     </div>
 @endsection

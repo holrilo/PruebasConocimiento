@@ -19,7 +19,9 @@ class TareasControllers extends Controller
         //
         //$tareas = Tareas::all();
         //return $tareas;
-        $datos['tareas'] = Tareas::all();
+        //$datos['tareas'] = Tareas::all();
+
+        $datos['tareas'] = Tareas::orderBy('fecha_vencimiento', 'ASC')->paginate(5);
         return view('tarea.index', $datos);
     }
 
@@ -98,14 +100,14 @@ class TareasControllers extends Controller
         $tareas->estado_tarea = $request->txtEstado;
         $tareas->fecha_vencimiento = $request->txtFechaV;
         //$tareas->usuario = $request->usuario;
-        if (Auth::user()->name != $tareas->usuario ) {
+        if (Auth::user()->name != $tareas->usuario) {
             # code...
             $mensaje = "EL usuario no creo el caso no se puede modificar ";
-        }else {
+        } else {
             $tareas->save();
             $mensaje = "Tarea Modificada con Exito";
         }
-        
+
         return redirect('/tarea')->with('mensaje', $mensaje);;
 
         // $tareas->save();
@@ -124,8 +126,18 @@ class TareasControllers extends Controller
     {
         //
         //$tareas = Tareas::destroy($request->id);
-        Tareas::destroy($id);
+
+        $tareas = Tareas::findOrFail($id);
+        if (Auth::user()->name != $tareas->usuario) {
+            # code...
+            $mensaje = "EL usuario no creo el caso no se puede eliminar ";
+        } else {
+            Tareas::destroy($id);
+            $mensaje = "Tarea Eliminada con Exito";
+        }
+
+        //Tareas::destroy($id);
         //return $tareas;
-        return redirect('/tarea');
+        return redirect('/tarea')->with('mensaje', $mensaje);
     }
 }
