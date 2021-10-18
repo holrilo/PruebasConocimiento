@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Tareas;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class TareasControllers extends Controller
@@ -49,7 +50,8 @@ class TareasControllers extends Controller
         $tareas = new Tareas();
         $tareas->nombre_tariea = $request->txtTarea;
         $tareas->descripcion_tarea = $request->txtDesc;
-        $tareas->fecha_creacion = $request->txtFecha;
+        //$tareas->fecha_creacion = $request->txtFecha;
+        $tareas->fecha_creacion = Carbon::now();
         $tareas->estado_tarea = $request->txtEstado;
         $tareas->fecha_vencimiento = $request->txtFechaV;
         //$tareas->usuario = $request->usuario;
@@ -96,7 +98,7 @@ class TareasControllers extends Controller
         $tareas = Tareas::findOrFail($id);
         $tareas->nombre_tariea = $request->txtTarea;
         $tareas->descripcion_tarea = $request->txtDesc;
-        $tareas->fecha_creacion = $request->txtFecha;
+        //$tareas->fecha_creacion = $request->txtFecha;
         $tareas->estado_tarea = $request->txtEstado;
         $tareas->fecha_vencimiento = $request->txtFechaV;
         //$tareas->usuario = $request->usuario;

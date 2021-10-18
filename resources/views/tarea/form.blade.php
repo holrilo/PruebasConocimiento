@@ -16,12 +16,13 @@
                 placeholder="Descripcion Corta" aria-describedby="helpId"
                 value="{{ isset($tarea->nombre_tariea) ? $tarea->descripcion_tarea : old('txtDesc') }}">
         </div>
-        <div class="form-group">
+{{--         <div class="form-group">
             <label for="txtFecha">Fecha</label>
             <input type="text" name="txtFecha" id="txtFecha" class="form-control" placeholder=""
                 aria-describedby="helpId"
                 value="{{ isset($tarea->nombre_tariea) ? $tarea->fecha_creacion : old('txtFecha') }}">
-        </div>
+        </div> --}}
+        
         <div class="form-group">
             <label for="txtEstado">Estado</label>
             {{-- <input type="text" name="txtEstado" id="txtEstado" class="form-control" placeholder="" aria-describedby="helpId"> --}}
